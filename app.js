@@ -4,11 +4,22 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var multer = require('multer');
+var upload = multer({dest: './uploads'});
+var session = require('express-session');
+var flash = require('connect-flash');
+var moment = require('moment');
+var expressValidator = require('express-validator');
+
+var mongo = require('mongodb');
+var db = require('monk')('localhost/nodeblog');
 
 var index = require('./routes/index');
-var users = require('./routes/users');
+var posts = require('./routes/posts');
 
 var app = express();
+
+app.locals.moment = moment;
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -22,8 +33,31 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Handle Sessions
+app.use(session({
+    secret: 'secret',
+    saveUninitialized: true,
+    resave: true
+}));
+
+// Validator
+app.use(expressValidator());
+
+app.use(flash());
+app.use(function (req, res, next) {
+  res.locals.messages = require('express-messages')(req, res);
+  next();
+});
+
+
+app.use(function(req, res, next){
+    req.db = db;
+    next();
+})
+
+
 app.use('/', index);
-app.use('/users', users);
+app.use('/posts', posts);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

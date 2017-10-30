@@ -10,14 +10,16 @@
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "express": "~4.15.5",
-    "jade": "~1.11.0",
-    "morgan": "~1.9.0",
-    "serve-favicon": "~2.4.5",
-    "monk": "*",
     "express-messages": "*",
     "express-session": "^1.15.6",
     "express-validator": "^4.2.1",
+    "jade": "~1.11.0",
+    "moment": "*",
+    "mongodb": "^2.2.33",
+    "monk": "*",
+    "morgan": "~1.9.0",
     "multer": "*",
-    "moment": "*"
+    "serve-favicon": "~2.4.5",
+    "connect-flash": "*"
   }
 }
