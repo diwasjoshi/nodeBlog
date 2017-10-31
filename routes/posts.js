@@ -44,7 +44,8 @@ router.post('/add', upload.single('mainimage'), function(req, res, next) {
       });
   }else{
       var db = req.db;
-      posts.inser({
+      var posts = db.get('posts');
+      posts.insert({
           title: title,
           category: category,
           date: date,
@@ -56,7 +57,7 @@ router.post('/add', upload.single('mainimage'), function(req, res, next) {
               res.send(err);
           }else{
               req.flash('success', 'post added');
-              res.redirec('/');
+              res.redirect('/');
           }
       })
   }
