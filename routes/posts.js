@@ -1,14 +1,28 @@
 var express = require('express');
 var router = express.Router();
 var multer = require('multer');
-var upload = multer({dest: './uploads'});
+var upload = multer({dest: './public/images'});
 
 
-/* GET users listing. */
+router.get('/show/:id', function(req, res, next) {
+  var db = req.db;
+  var posts = db.get('posts');
+
+  posts.find({_id:req.params.id}, {}, function(err, post){
+      console.log(post);
+      res.render('show', {
+          title: 'Show Post',
+          post: post[0]
+      });
+  })
+
+});
+
+
 router.get('/add', function(req, res, next) {
   var db = req.db;
   var categories = db.get('categories');
-  //console.log(categories);
+
   categories.find({}, {}, function(err, categories){
       res.render('addpost', {
           title: 'Add Post',

@@ -113,3 +113,7 @@ textarea{
 	height:70px;
 	width:400px;
 }
+
+.post img{
+    width: 100%;
+}
